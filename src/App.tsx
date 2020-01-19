@@ -3,11 +3,10 @@ import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { UserActions } from './actions/user.actions';
-import { IUser } from './api/IUser';
 import './App.css';
+import { IUserState } from './reducers/user.reducer';
 import { IApplicationState } from './store/store';
 import StoreEcho from './StoreEcho';
-import { IUserState } from './reducers/user.reducer';
 
 interface IComponentUserState {
   userState?: IUserState;
@@ -38,7 +37,7 @@ const App: React.FunctionComponent<{}> = (props) => {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [/** list of dependencies that will be causing the re-render */]);
 
   return (
     <div className="body-content">
