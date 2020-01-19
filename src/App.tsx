@@ -7,31 +7,32 @@ import { IUser } from './api/IUser';
 import './App.css';
 import { IApplicationState } from './store/store';
 import StoreEcho from './StoreEcho';
+import { IUserState } from './reducers/user.reducer';
 
 interface IComponentUserState {
-  user?: IUser;
+  userState?: IUserState;
   isFetching: boolean;
 }
 
 const App: React.FunctionComponent<{}> = (props) => {
   const dispatch = useDispatch();
-  const user = useSelector((state: IApplicationState) => state.userState ? state.userState.user : undefined);
+  const userState = useSelector((state: IApplicationState) => state.userState);
   const initialState: IComponentUserState = {
-    user: user,
+    userState: userState,
     isFetching: false
   }
   const [data, setData] = useState(initialState);
 
   const fetchUsers = async () => {
     try {
-      setData({ user: data.user, isFetching: true });
+      setData({ userState: data.userState, isFetching: true });
       const response = await Axios.get('https://jsonplaceholder.typicode.com/users/2');
-      setData({ user: response.data, isFetching: false });
+      setData({ userState: response.data, isFetching: false });
 
       dispatch({ type: UserActions.USER_ACTION_DATA_RETRIEVED, payload: response.data });
     } catch (e) {
       console.log(e);
-      setData({ user: data.user, isFetching: false });
+      setData({ userState: data.userState, isFetching: false });
     }
   };
 
