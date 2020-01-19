@@ -1,6 +1,5 @@
 import { applyMiddleware, combineReducers, createStore, Store } from 'redux';
 import { createLogger } from 'redux-logger';
-import thunk from 'redux-thunk';
 import { IUserState, userReducer } from '../reducers/user.reducer';
 
 const logger = createLogger({
@@ -8,20 +7,17 @@ const logger = createLogger({
 });
 
 export interface IApplicationState {
-    user: IUserState,
+    userState: IUserState,
     localeCode: string;
 }
 
 class StoreFactory {
     public init(): Store {
         const reducers = combineReducers({
-            user: userReducer
+            userState: userReducer
         });
 
-        const storeInstance = createStore(reducers, {}, applyMiddleware(logger, thunk));
-        storeInstance.subscribe(
-            () => console.log('Store updated. New state:', storeInstance.getState())
-        );
+        const storeInstance = createStore(reducers, {}, applyMiddleware(logger));
 
         return storeInstance;
     }
